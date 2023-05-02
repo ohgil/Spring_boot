@@ -58,12 +58,18 @@ public class MainController {
     @ResponseBody
     public String showMbti(@PathVariable String name) {
         return switch (name) {
-            case "홍길동" -> "INFP";
-            case "홍길순" -> "ENFP";
-            case "임꺽정" -> "ENFJ";
+            case "홍길동" -> {
+                char p = 'P';
+                yield "ISF" + p;
+            }
+            case "홍길순", "임꺽정", "오길환" -> "ISFP";//축약가능
             case "반장" -> "ESTJ";
             default -> "모름";
         };
+        //기존 switch문은 아래와 같이 여러줄 입력해야하나 17 이상은 이런식으로 활용할 수 있다함
+        //case "목록":
+        //  wiseSayingController.list();
+        //  break;
     }
 }
 
