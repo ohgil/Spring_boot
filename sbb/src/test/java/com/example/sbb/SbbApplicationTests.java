@@ -1,9 +1,11 @@
 package com.example.sbb;
 
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,12 +19,18 @@ class SbbApplicationTests {
     @Autowired
     private AnswerRepository answerRepository;
 
+    @Transactional
     @Test
     void testJpa() {
-        Optional<Answer> oa = this.answerRepository.findById(1);//answerRepository Id 1번값을 가져옴.
-        assertTrue(oa.isPresent());//조건 맞으면
-        Answer a = oa.get();//객체에 통으로 값을 담는다
-        assertEquals(2, a.getQuestion().getId());//그리고 a객체의 question_id가 2인지 확인
+        Optional<Question> oq = this.questionRepository.findById(2);//questionRepository Id 2번값을 가져옴
+        assertTrue(oq.isPresent());//조건 맞으면
+        Question q = oq.get();//a객체에 넣는다
+
+        List<Answer> answerList = q.getAnswerList();//질문이 여러개 달릴 수 있어서 List로 받아옴
+
+        assertEquals(1, answerList.size());//가져온 값이 1개인지 확인
+        assertEquals("네 자동으로 생성됩니다.", answerList.get(0).getContent());
+        //하지만 이렇게 할 경우 오류 발생
 
     }
 
