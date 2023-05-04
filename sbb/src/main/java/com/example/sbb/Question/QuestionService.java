@@ -1,5 +1,6 @@
 package com.example.sbb.Question;
 
+import com.example.sbb.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.config.ConfigDataLocationNotFoundException;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class QuestionService {
         if(question.isPresent()){
             return question.get();
         } else {
-            return question.get();
+            throw new DataNotFoundException("question not found");
         }
     }
 
