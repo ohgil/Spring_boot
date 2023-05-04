@@ -2,7 +2,6 @@ package com.example.sbb.Question;
 
 import com.example.sbb.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.context.config.ConfigDataLocationNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,7 +22,7 @@ public class QuestionService {
         if(question.isPresent()){
             return question.get();
         } else {
-            throw new DataNotFoundException("question not found");
+            throw new DataNotFoundException("question not found");//못 찾을 경우 위 멘트 출력
         }
     }
 
