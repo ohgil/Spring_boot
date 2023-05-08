@@ -1,5 +1,7 @@
 <html layout:decorate="~{layout}">
+<!--레이아웃 자동으로 들어오게함-->
 <div layout:fragment="content" class="container my-3">
+    <!--    선언을 해줘야 감싸져있는 속성들이 들어감-->
     <!-- 질문 -->
     <h2 class="border-bottom py-2" th:text="${question.subject}"></h2>
     <div class="card my-3">
