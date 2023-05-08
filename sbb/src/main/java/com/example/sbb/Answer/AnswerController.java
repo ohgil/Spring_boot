@@ -20,8 +20,9 @@ public class AnswerController {
 
     @PostMapping("/create/{id}")
     public String createAnswer(Model model, @PathVariable("id") Integer id, @RequestParam String content) {
-        Question question = this.questionService.getQuestion(id);
-        this.answerService.create(question, content);
-        return String.format("redirect:/question/detail/%s", id);
+        //
+        Question question = this.questionService.getQuestion(id);//값이 여러개였으면 list 등 배열과 같이 다른방법을 사용하는게 나음
+        this.answerService.create(question, content);//질문id, 답변내용 answer repository에 저장하기위해 생성자
+        return String.format("redirect:/question/detail/%s", id);//내가 받아온 상태를 다시 처리할 수 있게 리턴값으로 지정
     }
 }

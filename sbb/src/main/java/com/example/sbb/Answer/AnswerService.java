@@ -19,5 +19,5 @@ public class AnswerService {
         answer.setCreateDate(LocalDateTime.now());
         answer.setQuestion(question);
         this.answerRepository.save(answer);
-    }
+    }//Answer에 답변내용, 현재시간, 질문id을 answerRepository에 save를 활용해서 담음
 }
