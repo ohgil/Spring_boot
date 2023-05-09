@@ -2,11 +2,13 @@ package com.example.sbb.Question;
 
 import java.util.List;
 
+import com.example.sbb.Answer.AnswerForm;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,23 +27,25 @@ public class QuestionController {
     }
 
     @GetMapping(value = "detail/{id}")
-    public String detail(Model model, @PathVariable("id") Integer id) {
+    public String detail(Model model, @PathVariable("id") Integer id, AnswerForm answerForm) {
         Question question = this.questionService.getQuestion(id);
         model.addAttribute("question", question);
         return "question_detail";
     }
 
+
     @GetMapping("/create")
-    public String questionCreate() {
+    public String questionCreate(QuestionForm questionForm) {
         return "question_form";
     }
 
     @PostMapping("/create")//값을 받아오고 DB에 저장
-    public String questionCreate(QuestionForm questionForm) {
+    public String questionCreate(@Valid QuestionForm questionForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {//결과에 에러가 있으면 form으로 다시 보냄
             return "question_form";
         }
         this.questionService.create(questionForm.getSubject(), questionForm.getContent());
         return "redirect:/question/list";//오류가 없으면 값을 보냄
 
+    }
 }
