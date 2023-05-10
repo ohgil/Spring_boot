@@ -1,19 +1,11 @@
 package com.example.sbb;
 
-import java.time.LocalDateTime;
-import java.util.Optional;
 
-import com.example.sbb.Answer.Answer;
-import com.example.sbb.Answer.AnswerRepository;
-import com.example.sbb.Question.Question;
-import com.example.sbb.Question.QuestionRepository;
 import com.example.sbb.Question.QuestionService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
 
 
 @SpringBootTest
