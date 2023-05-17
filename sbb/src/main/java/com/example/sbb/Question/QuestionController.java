@@ -1,14 +1,17 @@
 package com.example.sbb.Question;
 
+import java.rmi.RemoteException;
 import java.security.Principal;
 import java.security.Signature;
 import java.util.List;
 
+import com.example.sbb.Answer.Answer;
 import com.example.sbb.Answer.AnswerForm;
 import com.example.sbb.user.SiteUser;
 import com.example.sbb.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.server.ResponseStatusException;
 
 @RequestMapping("/question") //이게 없으면 밑에 /question을 다 붙여야함
 @RequiredArgsConstructor
@@ -27,7 +31,7 @@ public class QuestionController {
     private final UserService userService;
 
     @GetMapping("/list")
-    public String list(Model model, @RequestParam(value="page", defaultValue="0") int page) {
+    public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
         Page<Question> paging = this.questionService.getList(page);
         model.addAttribute("paging", paging);
         return "question_list";
@@ -54,9 +58,26 @@ public class QuestionController {
         if (bindingResult.hasErrors()) {//결과에 에러가 있으면 form으로 다시 보냄
             return "question_form";
         }
-        SiteUser siteUser =this.userService.getUser(principal.getName());
+        SiteUser siteUser = this.userService.getUser(principal.getName());
         this.questionService.create(questionForm.getSubject(), questionForm.getContent(), siteUser);
         return "redirect:/question/list";//오류가 없으면 값을 보냄
+    }
 
+    public String questionModify(QuestionForm questionForm, @PathVariable("id") Integer id, Principal principal) {
+        Question question = this.questionService.getQuestion(id);
+        if (!question.getAuthor().getUsername().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+        }
+        questionForm.setSubject(question.getSubject());
+        questionForm.setContent(question.getContent());
+        return "question_form";
+    }
+    public String questionDelete(Principal principal, @PathVariable("id") Integer id){
+        Question question = this.questionService.getQuestion(id);
+        if(!question.getAuthor().getUsername().equals(principal.getName())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
+        }
+        this.questionService.delete(question);
+        return "redirect:/";
     }
 }
