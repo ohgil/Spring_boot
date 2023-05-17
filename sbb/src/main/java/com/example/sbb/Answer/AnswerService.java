@@ -24,7 +24,7 @@ public class AnswerService {
         answer.setAuthor(author);
         this.answerRepository.save(answer);
         return answer;
-    }//Answer에 내용, 저장된 시간, 질문
+    }
 
     public Answer getAnswer(Integer id) {
         Optional<Answer> answer = this.answerRepository.findById(id);
@@ -40,6 +40,7 @@ public class AnswerService {
         answer.setModifyDate(LocalDateTime.now());
         this.answerRepository.save(answer);
     }
+
     public void delete(Answer answer) {
         this.answerRepository.delete(answer);
     }
