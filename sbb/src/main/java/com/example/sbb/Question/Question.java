@@ -3,14 +3,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.example.sbb.Answer.Answer;
-import jakarta.persistence.CascadeType;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import com.example.sbb.user.SiteUser;
+import jakarta.persistence.*;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -33,4 +27,7 @@ public class Question {
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)//질문이 삭제됐을때 답변도 자동으로 삭제될 수 있게 제약을 걸어둠
     private List<Answer> answerList;//1대 다 관계로 List 사용
+
+    @ManyToOne
+    private SiteUser author;
 }
