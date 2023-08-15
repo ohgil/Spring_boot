@@ -12,7 +12,6 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="com.example.sbb" target="17" />
       <module name="sbb.sbb.main~1" target="17" />
       <module name="sbb.sbb.test~1" target="17" />
     </bytecodeTargetLevel>

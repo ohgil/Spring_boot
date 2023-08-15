@@ -1,5 +1,7 @@
 <html layout:decorate="~{layout}">
+<!--레이아웃 자동으로 들어오게함-->
 <div layout:fragment="content" class="container my-3">
+<!--    선언을 해줘야 감싸져있는 속성들이 들어감-->
     <div class="row my-3">
         <div class="col-6">
             <a th:href="@{/question/create}" class="btn btn-primary">질문 등록하기</a>
@@ -27,7 +29,7 @@
                 <a th:href="@{|/question/detail/${question.id}|}" th:text="${question.subject}"></a>
                 <span class="text-danger small ms-2" th:if="${#lists.size(question.answerList) > 0}"
                       th:text="${#lists.size(question.answerList)}">
-			        </span>
+        </span>
             </td>
             <td><span th:if="${question.author != null}" th:text="${question.author.username}"></span></td>
             <td th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></td>

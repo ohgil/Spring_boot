@@ -26,11 +26,12 @@ import org.springframework.web.server.ResponseStatusException;
 @RequiredArgsConstructor
 @Controller
 public class QuestionController {
+
     private final QuestionService questionService;
     private final UserService userService;
 
     @GetMapping("/list")
-    public String list(Model model, @RequestParam(value="page", defaultValue="0") int page,
+    public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
                        @RequestParam(value = "kw", defaultValue = "") String kw) {
         Page<Question> paging = this.questionService.getList(page, kw);
         model.addAttribute("paging", paging);
@@ -38,12 +39,13 @@ public class QuestionController {
         return "question_list";
     }
 
-    @GetMapping(value = "/detail/{id}")
+    @GetMapping(value = "detail/{id}")
     public String detail(Model model, @PathVariable("id") Integer id, AnswerForm answerForm) {
         Question question = this.questionService.getQuestion(id);
         model.addAttribute("question", question);
         return "question_detail";
     }
+
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
@@ -52,15 +54,15 @@ public class QuestionController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @PostMapping("/create")
-    public String questionCreate(@Valid QuestionForm questionForm,
-                                 BindingResult bindingResult, Principal principal) {
-        if (bindingResult.hasErrors()) {
+    @PostMapping("/create")//값을 받아오고 DB에 저장
+    public String questionCreate(@Valid QuestionForm questionForm, BindingResult bindingResult,
+                                 Principal principal) {
+        if (bindingResult.hasErrors()) {//결과에 에러가 있으면 form으로 다시 보냄
             return "question_form";
         }
         SiteUser siteUser = this.userService.getUser(principal.getName());
         this.questionService.create(questionForm.getSubject(), questionForm.getContent(), siteUser);
-        return "redirect:/question/list";
+        return "redirect:/question/list";//오류가 없으면 값을 보냄
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -100,7 +102,6 @@ public class QuestionController {
         this.questionService.delete(question);
         return "redirect:/";
     }
-
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/vote/{id}")
     public String questionVote(Principal principal, @PathVariable("id") Integer id) {

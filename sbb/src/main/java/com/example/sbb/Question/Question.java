@@ -26,8 +26,8 @@ public class Question {
 
     private LocalDateTime createDate;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
-    private List<Answer> answerList;
+    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)//질문이 삭제됐을때 답변도 자동으로 삭제될 수 있게 제약을 걸어둠
+    private List<Answer> answerList;//1대 다 관계로 List 사용
 
     @ManyToOne
     private SiteUser author;
